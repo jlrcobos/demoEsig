@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuarios</h2>
+
+<form action="@Url.Action("Guardar","Usuario")" method="post">
+    <label>Nombres</label>
+    <input type="text" id="txtNombres" name="nombres" placeholder="Ingrese Nombres" />
+    <label>Apellidos</label>
+    <input type="text" id="txtApellidos" name="apellidos" placeholder="Ingrese Apellidos" />
+    <input type="button" value="Registrar" onclick="guardar()" />
+</form>
+
+@section scripts {
+    <script type="text/javascript">
+                    function guardar() {
+                let url = "@Url.Action("Guardar","Usuario")";
+                let model = {
+                    nombres: $("#txtNombres").val(),
+                    apellidos: $("#txtApellidos").val()
+                };
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(model),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    //beforeSend: function () {  },
+                    //error: function (jqXHR, error, errorThrown) { },
+                    //complete: function () { },
+                    success: function (data) {
+                        if (data.success) {
+                            alert(data.message);
+                        } else {
+                            alert("Sucedio un error");
+                        }
+                    }
+                });
+            };
+        $(document).ready(function () {
+            $("#txtNombres").val("Alberto");
+            $("#txtApellidos").val("Gonzales");
+
+
+        });
+    </script>
+}
+
+
+
